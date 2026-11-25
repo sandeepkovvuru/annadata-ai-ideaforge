@@ -1,0 +1,6 @@
+streamlit==1.40.0
+google-genai==0.8.0
+pypdf==5.1.0
+scikit-learn==1.5.2
+numpy==1.26.4
+gTTS==2.5.4

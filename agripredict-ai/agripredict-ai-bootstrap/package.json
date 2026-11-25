@@ -1,0 +1,12 @@
+{
+  "name": "agripredict-ai-bootstrap",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AgriPredict AI Bootstrap and Flexbox local development frontend",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

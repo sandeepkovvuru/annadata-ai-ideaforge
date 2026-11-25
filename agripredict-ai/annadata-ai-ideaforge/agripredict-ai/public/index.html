@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#163b2b">
+  <meta name="description" content="AgriPredict AI combines weather intelligence, climate-risk screening and historical crop-yield benchmarks.">
+  <title>AgriPredict AI | Climate & Crop Intelligence</title>
+
+  <!-- Bootstrap 5 for responsive components and form controls -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark app-navbar">
+    <div class="container">
+      <a class="navbar-brand brand-mark" href="#">
+        <span class="brand-icon">A</span>
+        AgriPredict <span>AI</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+          <a class="nav-link" href="#dashboard">Dashboard</a>
+          <a class="nav-link" href="#method">Methodology</a>
+          <a class="nav-link" href="#about">About</a>
+          <span class="live-pill"><i></i> LIVE WEATHER</span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero-section">
+      <div class="hero-copy">
+        <p class="eyebrow">CLIMATE INTELLIGENCE FOR RESILIENT FARMING</p>
+        <h1>Know the risk.<br><em>Protect the harvest.</em></h1>
+        <p class="hero-description">
+          Location-aware weather signals, explainable climate-risk screening and
+          historical crop-yield insights for agricultural planning.
+        </p>
+        <div class="hero-tags">
+          <span>☀ Weather-informed</span>
+          <span>⌖ District-aware</span>
+          <span>✦ Explainable risk</span>
+        </div>
+      </div>
+      <div class="hero-illustration" aria-label="Illustration of a farm landscape">
+        <div class="sun"></div>
+        <div class="field field-one"></div>
+        <div class="field field-two"></div>
+        <div class="field-ridges"></div>
+        <span class="illustration-label">FIELD INTELLIGENCE <b>01 / 04</b></span>
+      </div>
+    </section>
+
+    <section id="dashboard" class="section-block">
+      <div class="section-title d-flex justify-content-between align-items-end flex-wrap gap-2">
+        <div>
+          <p class="eyebrow">YOUR FIELD SNAPSHOT</p>
+          <h2>Climate risk dashboard</h2>
+        </div>
+        <span id="updated" class="text-secondary small">Loading weather data…</span>
+      </div>
+
+      <div class="control-panel d-flex flex-wrap align-items-end gap-3">
+        <div class="control-location flex-grow-1">
+          <label class="form-label" for="place">Location</label>
+          <div class="input-group">
+            <span class="input-group-text">⌖</span>
+            <input id="place" class="form-control" value="Bengaluru" placeholder="Enter city or district">
+            <button id="analyzeBtn" class="btn btn-agri" type="button">Analyze</button>
+          </div>
+        </div>
+        <div class="control-select">
+          <label class="form-label" for="crop">Crop</label>
+          <select id="crop" class="form-select">
+            <option value="rice">Rice / Paddy</option>
+            <option value="maize">Maize</option>
+            <option value="cotton">Cotton</option>
+            <option value="groundnut">Groundnut</option>
+            <option value="ragi">Ragi</option>
+            <option value="millet">Bajra</option>
+          </select>
+        </div>
+        <div class="control-select">
+          <label class="form-label" for="stage">Growth stage</label>
+          <select id="stage" class="form-select">
+            <option>Vegetative</option>
+            <option>Flowering</option>
+            <option>Harvest</option>
+            <option>Sowing</option>
+          </select>
+        </div>
+        <div class="control-select">
+          <label class="form-label" for="season">Season</label>
+          <select id="season" class="form-select">
+            <option>Kharif</option>
+            <option>Rabi</option>
+            <option>Whole Year</option>
+            <option>Summer</option>
+            <option>Winter</option>
+            <option>Autumn</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="error" class="alert alert-warning d-none" role="alert"></div>
+
+      <div class="flex-cards metric-cards">
+        <article class="metric-card">
+          <span>Current temperature</span>
+          <strong id="temp">—</strong>
+          <small id="condition">Awaiting weather data</small>
+        </article>
+        <article class="metric-card">
+          <span>Rainfall · next 7 days</span>
+          <strong id="rain">—</strong>
+          <small>Forecast accumulation</small>
+        </article>
+        <article class="metric-card">
+          <span>Peak precipitation chance</span>
+          <strong id="chance">—</strong>
+          <small>Next 7 days</small>
+        </article>
+        <article class="metric-card">
+          <span>Climate risk index</span>
+          <strong id="risk">—</strong>
+          <small id="riskLabel">Composite indicator</small>
+        </article>
+      </div>
+
+      <div class="flex-layout two-columns">
+        <article class="panel-card flex-grow-1">
+          <div class="panel-heading d-flex flex-wrap justify-content-between align-items-start gap-2">
+            <div>
+              <p class="eyebrow">HYBRID ML MODEL · HISTORICAL BACKTEST</p>
+              <h3>Crop yield benchmark</h3>
+            </div>
+            <span class="soft-pill">RF + XGBoost-style GBDT</span>
+          </div>
+          <div class="yield-reading">
+            <strong id="yieldEstimate">—</strong>
+            <span>tonnes / hectare</span>
+          </div>
+          <p id="yieldMeta" class="muted-copy">Run an analysis to retrieve a historical benchmark.</p>
+          <div id="modelSplit" class="model-split"></div>
+          <div id="modelContext" class="context-cards"></div>
+          <p class="disclaimer">
+            Historical reference scenario for 2013, trained on 1997–2011 records.
+            This is not a current-year or 2026 yield forecast.
+          </p>
+        </article>
+
+        <article class="panel-card flex-grow-1">
+          <div class="panel-heading d-flex flex-wrap justify-content-between align-items-start gap-2">
+            <div>
+              <p class="eyebrow">TEMPORAL HOLDOUT · 2013–2014</p>
+              <h3>Model evaluation</h3>
+            </div>
+            <span class="soft-pill">11,086 test rows</span>
+          </div>
+          <div id="modelMetrics" class="table-responsive">
+            <p class="muted-copy">Evaluation details load with the prediction.</p>
+          </div>
+          <p class="disclaimer">
+            Random Forest performs better than the hybrid blend on the reported test metrics.
+          </p>
+        </article>
+      </div>
+
+      <div class="flex-layout two-columns">
+        <article class="panel-card flex-grow-1">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">NEXT 7 DAYS</p>
+              <h3>Weather outlook</h3>
+            </div>
+            <span class="soft-pill">Forecast</span>
+          </div>
+          <div id="forecast" class="forecast-list">
+            <p class="muted-copy">Run an analysis to load the forecast.</p>
+          </div>
+        </article>
+
+        <article class="panel-card flex-grow-1">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">MODEL OUTPUT</p>
+              <h3>Risk breakdown</h3>
+            </div>
+            <span class="soft-pill">0–100</span>
+          </div>
+          <div class="risk-summary d-flex align-items-center gap-3">
+            <div id="gauge" class="risk-gauge"><span id="gaugeNum">—</span></div>
+            <div>
+              <b id="riskTitle">Awaiting analysis</b>
+              <p id="riskText" class="muted-copy mb-0">Select a location to assess climate stress.</p>
+            </div>
+          </div>
+          <div id="factors" class="factor-list"></div>
+        </article>
+      </div>
+
+      <div class="flex-layout two-columns">
+        <article class="panel-card flex-grow-1">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">FIELD ACTIONS</p>
+              <h3>Indicative crop advisory</h3>
+            </div>
+            <span class="soft-pill">Decision support</span>
+          </div>
+          <ul id="advice" class="advice-list">
+            <li>Run an analysis to generate crop-specific suggestions.</li>
+          </ul>
+          <p class="disclaimer">Validate recommendations with local agricultural officers and field conditions.</p>
+        </article>
+        <article class="panel-card flex-grow-1">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">LOCATION CONTEXT</p>
+              <h3>Coordinates & data</h3>
+            </div>
+          </div>
+          <div class="location-summary d-flex align-items-center gap-3">
+            <span class="location-icon">⌖</span>
+            <div>
+              <b id="locationName">Bengaluru</b>
+              <p id="coords" class="muted-copy mb-0">Coordinates will appear here</p>
+            </div>
+          </div>
+          <div class="source-list">
+            <div><span>Weather provider</span><b>Open-Meteo</b></div>
+            <div><span>Forecast horizon</span><b>7 days</b></div>
+            <div><span>Risk method</span><b>Explainable heuristic</b></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="method" class="section-block method-section">
+      <p class="eyebrow">HOW IT WORKS</p>
+      <h2>From weather signals to field decisions.</h2>
+      <div class="flex-layout method-steps">
+        <article><span>01</span><h3>Locate</h3><p>Resolve a town or district to latitude and longitude.</p></article>
+        <article><span>02</span><h3>Observe</h3><p>Retrieve current conditions and a seven-day weather forecast.</p></article>
+        <article><span>03</span><h3>Assess</h3><p>Combine weather signals with historical climate and district soil context.</p></article>
+        <article><span>04</span><h3>Act</h3><p>Show crop and growth-stage-aware suggestions with clear limitations.</p></article>
+      </div>
+    </section>
+
+    <section id="about" class="about-section flex-layout">
+      <div class="flex-grow-1">
+        <p class="eyebrow">IDEA//FORGE · TRACK 2</p>
+        <h2>Resilience starts with better local signals.</h2>
+      </div>
+      <p class="about-copy flex-grow-1">
+        AgriPredict AI combines live seven-day weather signals and an explainable
+        climate-stress screening index with a trained hybrid crop-yield benchmark.
+        The yield output is a retrospective 2013 scenario, not a current-season
+        or 2026 forecast. Live weather is displayed separately and is not fed into
+        the historical yield model.
+      </p>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <div class="container d-flex flex-wrap justify-content-between gap-2">
+      <span>© 2026 AgriPredict AI · IDEA//FORGE prototype</span>
+      <span><a href="https://agripredict-ai.hatchable.site" target="_blank" rel="noopener">Live application</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
